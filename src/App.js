@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import QueryEditor from './components/QueryEditor';
-import QuerySelector from './components/QuerySelector';
 import DataTable from './components/DataTable';
 import { mockData } from './data/mockData';
 
 const App = () => {
     const [query, setQuery] = useState('');
     const [data, setData] = useState([]);
+    const [history, setHistory] = useState([]);
 
     const getResults = (query) => {
-        return mockData[query] || [];
+        return mockData[query.trim()] || [];
     }
 
-    const handleQueryChange = (event) => {
-        const selectedQuery = event.target.value;
-        setQuery(selectedQuery);
+    const handleQueryChange = (query) => {
+        setQuery(query);
+    };
+
+    const updateHistory = (query, result) => {
+        setHistory((prevHistory) => {
+            if (prevHistory.length >= 10) {
+                return [...prevHistory.slice(1), { query, result }];
+            }
+            return [...prevHistory, { query, result }];
+        });
     };
 
     const handleRunQuery = (highlightedQuery) => {
@@ -22,19 +30,25 @@ const App = () => {
             const selectedText = window.getSelection().toString();
             const result = getResults(selectedText);
             setData(result);
+            updateHistory(selectedText, result);
         } else {
             const result = getResults(query);
             setData(result);
+            updateHistory(query, result);
         }
     }
 
     return (
         <div className="App">
-            <h1>SQL Query Runner</h1>
-            <QueryEditor onQueryChange={handleQueryChange} query={query} onRunQuery={handleRunQuery} mockData={mockData}/>
+            <h3>SQL Query Runner</h3>
+            <QueryEditor onQueryChange={handleQueryChange} query={query} onRunQuery={handleRunQuery} mockData={mockData} history={history} />
             <DataTable data={data} />
         </div>
     );
 };
 
 export default App;
+
+// TODO add a loading spinner when fetching data
+// TODO add a button to save the query
+// TODO fetch loading time

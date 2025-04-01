@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 
-const QueryEditor = ({ onQueryChange, query, onRunQuery, mockData }) => {
+const QueryEditor = ({ onQueryChange, query, onRunQuery, mockData, history }) => {
     const [isTextSelected, setIsTextSelected] = useState(false);
 
     const onTextSelect = () => {
@@ -10,10 +10,9 @@ const QueryEditor = ({ onQueryChange, query, onRunQuery, mockData }) => {
 
     return (
         <div className="query-editor">
-            <h2>Query Editor</h2>
             <textarea
                 value={query}
-                onChange={onQueryChange}
+                onChange={(event => onQueryChange(event.target.value))}
                 rows="5"
                 cols="50"
                 placeholder="Enter your SQL query here"
@@ -23,8 +22,8 @@ const QueryEditor = ({ onQueryChange, query, onRunQuery, mockData }) => {
             />
 
             <div className="query-editor-controls">
-                <select onChange={onQueryChange} value={query}>
-                    <option value="">Select a query</option>
+                <select onChange={(event => onQueryChange(event.target.value))} value={query}>
+                    <option value="">Select from dummy</option>
                     {Object.keys(mockData).map((query) => (
                         <option key={query} value={query}>
                             {query}
@@ -32,7 +31,20 @@ const QueryEditor = ({ onQueryChange, query, onRunQuery, mockData }) => {
                     ))}
                 </select>
 
-                <button onClick={() => onRunQuery(isTextSelected)}>
+                <select onChange={(event => onQueryChange(event.target.value))} value={query}>
+                    <option value="">Select from history</option>
+                    {history.map((item, index) => (
+                        <option key={index} value={item.query}>
+                            {item.query}
+                        </option>
+                    ))}
+                </select>
+
+                <button onClick={() => onQueryChange('')} disabled={!query}>
+                    Clear
+                </button>
+
+                <button onClick={() => onRunQuery(isTextSelected)} disabled={!query}>
                     Run {isTextSelected ? 'Selected' : 'Current'}
                 </button>
             </div>
