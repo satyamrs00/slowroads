@@ -23,7 +23,7 @@
     "react-scripts": "4.0.3"
   },
   "devDependencies": {},
-  "homepage": "https://slowroads-alpha.vercel.app/sql-query-app",
+  "homepage": ".",
   "browserslist": {
     "production": [
       ">0.2%",
