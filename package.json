@@ -15,7 +15,7 @@
     "query",
     "database"
   ],
-  "author": "Your Name",
+  "author": "satyam",
   "license": "MIT",
   "dependencies": {
     "react": "^17.0.2",
@@ -23,7 +23,7 @@
     "react-scripts": "4.0.3"
   },
   "devDependencies": {},
-  "homepage": "http://yourusername.github.io/sql-query-app",
+  "homepage": "https://slowroads-alpha.vercel.app/sql-query-app",
   "browserslist": {
     "production": [
       ">0.2%",
