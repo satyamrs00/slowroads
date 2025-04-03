@@ -7,6 +7,7 @@ const App = () => {
     const [query, setQuery] = useState('');
     const [data, setData] = useState([]);
     const [history, setHistory] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const getResults = (query) => {
         return mockData[query.trim()] || [];
@@ -19,13 +20,14 @@ const App = () => {
     const updateHistory = (query, result) => {
         setHistory((prevHistory) => {
             if (prevHistory.length >= 10) {
-                return [...prevHistory.slice(1), { query, result }];
+                return [{ query, result }, ...prevHistory.slice(1)];
             }
-            return [...prevHistory, { query, result }];
+            return [{ query, result }, ...prevHistory];
         });
     };
 
     const handleRunQuery = (highlightedQuery) => {
+        setLoading(true);
         if (highlightedQuery && window.getSelection().toString()) {
             const selectedText = window.getSelection().toString();
             const result = getResults(selectedText);
@@ -36,19 +38,16 @@ const App = () => {
             setData(result);
             updateHistory(query, result);
         }
+        setLoading(false);
     }
 
     return (
         <div className="App">
             <h3>SQL Query Runner</h3>
             <QueryEditor onQueryChange={handleQueryChange} query={query} onRunQuery={handleRunQuery} mockData={mockData} history={history} />
-            <DataTable data={data} />
+            <DataTable data={data} loading={loading} />
         </div>
     );
 };
 
 export default App;
-
-// TODO add a loading spinner when fetching data
-// TODO add a button to save the query
-// TODO fetch loading time

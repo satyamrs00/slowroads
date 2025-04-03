@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DataTable = ({ data }) => {
+const DataTable = ({ data, loading }) => {
     const downloadAsCSV = () => {
         const headers = Object.keys(data[0]);
         const csvContent = data.map(row => Object.values(row).join(',')).join('\n');
@@ -19,6 +19,11 @@ const DataTable = ({ data }) => {
                 {data.length === 0 && (
                     <div className='data-table-empty'>
                         No data available
+                    </div>
+                )}
+                {loading && (
+                    <div className='data-table-empty'>
+                        Loading...
                     </div>
                 )}
                 <table>
@@ -41,7 +46,9 @@ const DataTable = ({ data }) => {
                 </table>    
             </div>
             <div className='data-table-controls'>
-                <button className='data-table-button' onClick={downloadAsCSV}>Export as CSV</button>
+                <button className='data-table-button' onClick={downloadAsCSV} disabled={data.length === 0}>
+                    Export as CSV
+                </button>
             </div>
         </div>
     );
