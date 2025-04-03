@@ -12,6 +12,12 @@ This project is a React application that allows users to run SQL queries and dis
 - Export query results to CSV format.
 - Clear the query editor in one click.
 
+## Architecture Diagram
+
+![Architecture Diagram](atlan-architecture.svg)
+
+## Video Walkthrough
+[Loom link](https://www.loom.com/share/5d729b2d9cee40019ccc31e8cf2411a5?sid=77774a31-2687-4eba-98bc-2c8974135df3)
 ## Framework
 
 This project is built using React, a popular JavaScript library for building user interfaces. It utilizes functional components and hooks for state management. No major plugins or libraries are used beyond React and CSS for styling.
